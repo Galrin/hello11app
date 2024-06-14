@@ -50,15 +50,15 @@ https://localhost:5000/main/api/intent/invoice/<string:file_name>
 Сначала скопируйте репозиторий с GitHub на вашу локальную машину используя команду:
 
 ```bash
-git clone https://github.com/_ИМЯ_/_ПРИЛОЖЕНИЕ_.git
+git clone https://github.com/Galrin/hello11app.git
 ```
 
 #### 2. Переместитесь в дирректорию проекта
 
-Зайдите в созданную папку `flask-pony-web11`:
+Зайдите в созданную папку `hello11app`:
 
 ```bash
-cd flask-pony-web11
+cd hello11app
 ```
 
 #### 3. Создание и активация виртуального окружения
