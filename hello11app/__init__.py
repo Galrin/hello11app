@@ -25,6 +25,7 @@ class Invoice(db.Entity):
     invoice_item = Required(InvoiceItem)
 
 
+# ---------------------------------------------------------------------------
 class User(db.Entity):
     id = PrimaryKey(int, auto=True)
     username = Required(str, unique=True)
@@ -69,7 +70,7 @@ def create_app(test_config=None) -> Flask:
         SECRET_KEY="dev",
         # store the database in the instance folder
         # PONY={'provider': 'sqlite',
-        #       'filename': os.path.join(app.instance_path, "pony_blog.db"),
+        #       'filename': os.path.join(app.instance_path, "hello11app.db"),
         #       'create_db': True}
         PONY={'provider': 'mysql', 'host': '127.0.0.1', 'user': 'root', 'passwd': 'qwerty', 'db': 'web11'}
     )

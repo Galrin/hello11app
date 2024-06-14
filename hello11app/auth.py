@@ -179,7 +179,7 @@ def logout():
 
 def route_access(view):
     """
-    View decorator that redirects anonymous users to the login page.
+    View decorator that redirects unwanted users to the page.
     """
 
     @functools.wraps(view)
@@ -194,28 +194,3 @@ def route_access(view):
 
     return wrapped_view
 
-
-@bp.route("/create/role", methods=("GET", "POST"))
-@login_required
-@route_access
-def reg_api():
-    print("path exist"
-          if request.path in [role.route for role in g.user.role.role_routes]
-          else "path not in set")
-    print(request.path)
-    print([role.route for role in g.user.role.role_routes], sep='\n')
-    #User.get(id=g.user.id).set(username="111", role=Role(name="admin", access_flags="rwxq"))
-
-    r = Role(name="admin", access_flags="rwxq", role_routes=[
-        RoleDenyRoute(route="/auth/create/role"),
-        RoleDenyRoute(route="/auth/create/rul"),
-        RoleDenyRoute(route="/auth/create/reole"),
-        RoleDenyRoute(route="/auth/create/roale")
-    ])
-
-    User.get(id=g.user.id).set(username="111", role=r)
-
-    commit()
-    # RoleDenyRoute(route="/auth/create/role", access_flags="rwxq", role=r)
-
-    return jsonify({"result": "ok"})

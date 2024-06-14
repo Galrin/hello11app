@@ -4,13 +4,14 @@ from flask import (
 from pony.orm import desc
 from werkzeug.exceptions import abort
 
-from pony_blog import Post
-from pony_blog.auth import login_required
+from hello11app import Post
+from hello11app.auth import login_required, route_access
 
 bp = Blueprint("main_reports", __name__)
 
 
-@bp.route("/main_reports")
+@bp.route("/main/reports")
 @login_required
+@route_access
 def index():
     return render_template("main/reports.html")

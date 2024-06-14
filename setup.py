@@ -1,16 +1,17 @@
 from setuptools import setup
 
 setup(
-    name='pony-blog',
-    version='1.0.0',
-    author='forgineer',
-    description='The basic blog app built in the Flask tutorial with Pony ORM integration.',
-    url='https://github.com/forgineer/flask-pony-example',
+    name='hello11app',
+    version='1.0.1',
+    author='Ge3eR',
+    description='SBER APP',
+    url='https://github.com/Galrin/hello11app',
     license='MIT License',
-    packages=['pony_blog'],
+    packages=['hello11app'],
     python_requires='>=3.8',
     install_requires=[
         'Flask',
         'pony',
+        'pymysql',
     ],
 )

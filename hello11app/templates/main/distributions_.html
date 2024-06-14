@@ -1,0 +1,163 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+
+    <h2 class="pb-2 border-bottom border-danger">Распределение</h2>
+{##}
+{#    <div class="container-fluid pb-3">#}
+{#        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;">#}
+{#          <div class="bg-body-tertiary border rounded-3">#}
+{#            <br><br><br><br><br><br><br><br><br><br>#}
+{#          </div>#}
+{#          <div class="bg-body-tertiary border rounded-3">#}
+{#            <br><br><br><br><br><br><br><br><br><br>#}
+{#          </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="container-fluid pb-2">#}
+{#        <div class="d-grid gap-3" style="grid-template-columns: 2fr 2fr;">#}
+{#          <div class="bg-body-tertiary border rounded-3">#}
+{#            <br><br><br><br><br><br><br><br><br><br>#}
+{#          </div>#}
+{#          <div class="bg-body-tertiary border rounded-3">#}
+{#            <br><br><br><br><br><br><br><br><br><br>#}
+{#          </div>#}
+{#        </div>#}
+{#    </div>#}
+
+
+
+      <link rel="stylesheet" href="/static/assets/css/examples-app.css">
+      <script src="/static/assets/js/examples-runtime.js" defer="defer"></script><script src="/static/assets/js/examples-app.js" defer="defer"></script>
+
+   <body id="PageUniqueDropzone">
+      <button type="button" id="MobileNavActivator" class="Hamburger" aria-controls="Sidebar" aria-expanded="false">
+         <div class="HamburgerBun">
+            <div class="HamburgerPatty"></div>
+         </div>
+      </button>
+
+      <main class="Main" role="main">
+         <div class="MainInterior">
+            <header class="PageHeader">
+               <h1 class="Heading Heading--size1">Droppable</h1>
+               <h2 class="Subheading">Dropzones are intended to hold only one Droppable child. This example restricts each Droppable item to a specific Dropzone identifier.</h2>
+               <a href="https://github.com/Shopify/draggable/tree/master/examples/src/content/Droppable/UniqueDropzone" class="Link Link--typeUnderlined" title="See this code example">View code on GitHub</a>
+            </header>
+            <section id="UniqueDropzone" class="UniqueDropzone">
+               <article class="BlockLayout BlockLayout--typeFlex">
+                  <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="1">
+                     <span class="Block Block--typeHollow">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">one</h3>
+                        </div>
+                     </span>
+                     <span class="Block Block--item1 Block--isDraggable" title="Click to drag">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">one</h3>
+                           <div class="Pattern Pattern--typeHalftone"></div>
+                           <div class="Pattern Pattern--typePlaced"></div>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="2">
+                     <span class="Block Block--typeHollow">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">two</h3>
+                        </div>
+                     </span>
+                     <span class="Block Block--item2 Block--isDraggable" title="Click to drag">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">two</h3>
+                           <div class="Pattern Pattern--typeHalftone"></div>
+                           <div class="Pattern Pattern--typePlaced"></div>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="4">
+                     <span class="Block Block--typeHollow">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">four</h3>
+                        </div>
+                     </span>
+                     <span class="Block Block--item4 Block--isDraggable" title="Click to drag">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">four</h3>
+                           <div class="Pattern Pattern--typeHalftone"></div>
+                           <div class="Pattern Pattern--typePlaced"></div>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="8">
+                     <span class="Block Block--typeHollow">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">eight</h3>
+                        </div>
+                     </span>
+                     <span class="Block Block--item8 Block--isDraggable" title="Click to drag">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">eight</h3>
+                           <div class="Pattern Pattern--typeHalftone"></div>
+                           <div class="Pattern Pattern--typePlaced"></div>
+                        </div>
+                     </span>
+                  </div>
+               </article>
+               <article class="BlockLayout BlockLayout--typeGrid">
+                  <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="1">
+                     <span class="Block Block--typeStripes">
+                        <div class="BlockContent"></div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="2">
+                     <span class="Block Block--typeStripes">
+                        <div class="BlockContent"></div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper">
+                     <span class="Block Block--typeShell Block--item3">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">three</h3>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="4">
+                     <span class="Block Block--typeStripes">
+                        <div class="BlockContent"></div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper">
+                     <span class="Block Block--typeShell Block--item5">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">five</h3>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper">
+                     <span class="Block Block--typeShell Block--item6">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">six</h3>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper">
+                     <span class="Block Block--typeShell Block--item7">
+                        <div class="BlockContent">
+                           <h3 class="Heading Heading--size2 text-no-select">seven</h3>
+                        </div>
+                     </span>
+                  </div>
+                  <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="8">
+                     <span class="Block Block--typeStripes">
+                        <div class="BlockContent"></div>
+                     </span>
+                  </div>
+               </article>
+            </section>
+         </div>
+      </main>
+      <div class="GridOverlay GridOverlay--isHidden"></div>
+   </body>
+
+
+{% endblock %}

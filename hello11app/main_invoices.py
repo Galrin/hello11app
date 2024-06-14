@@ -6,19 +6,19 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, current_app
 )
 
-# from pony_blog import socketio
+# from hello11app import socketio
 import time
 
 from pony.orm import desc, commit
 from werkzeug.exceptions import abort
 
-from pony_blog import InvoiceItem
-from pony_blog.auth import login_required
+from hello11app import InvoiceItem
+from hello11app.auth import login_required
 
 bp = Blueprint("main_invoices", __name__)
 
 
-@bp.route("/main_invoices")
+@bp.route("/main/invoices")
 @login_required
 def index():
     items = InvoiceItem.select().order_by(desc(InvoiceItem.upload_date))

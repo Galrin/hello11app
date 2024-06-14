@@ -5,24 +5,363 @@
     <h2 class="pb-2 border-bottom border-danger">Распределение</h2>
 
     <div class="container-fluid pb-3">
-        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;">
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="bg-body-tertiary border rounded-3">
-            <br><br><br><br><br><br><br><br><br><br>
+<h3 style="text-align: center" class="title-decor">таблицы</h3><hr>
+              <div class="container-fluid pb-3">
+              <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
+          <div class="bg-body-tertiary border rounded-3">
+              <div class="bd-example-snippet bd-code-snippet">
+  <div class="bd-example m-0 border-0" style="padding: .2rem">
+
+
+        <button type="button" class="btn btn-danger">Invoice</button>
+        <button type="button" class="btn btn-secondary">Contract</button>
+        <button type="button" class="btn btn-success">Service</button>
+        <button type="button" class="btn btn-light">Light</button>
+
+
+  </div>
+</div>
+          </div>          <div class="bg-body-tertiary border rounded-3">
+
+<br><br><br><br>
+
+          </div>
+              </div></div>
+
+
           </div>
           <div class="bg-body-tertiary border rounded-3">
-            <br><br><br><br><br><br><br><br><br><br>
+<h3 style="text-align: center" class="title-decor">действия</h3><hr>
+                            <div class="container-fluid pb-3">
+              <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
+          <div class="bg-body-tertiary border rounded-3">
+              <div class="bd-example-snippet bd-code-snippet">
+  <div class="bd-example m-0 border-0" style="padding: .2rem">
+
+        <div class="btn-toolbar gap-2 center-block" role="toolbar" aria-label="Toolbar with button groups">
+<div class="btn-group me-2" role="group" aria-label="First group">
+
+            <button type="button" class="btn btn-secondary">0</button>
+            <button type="button" class="btn btn-secondary">1</button>
+            <button type="button" class="btn btn-secondary">2</button>
+            <button type="button" class="btn btn-secondary">3</button>
+            <button type="button" class="btn btn-secondary">4</button>
+            <button type="button" class="btn btn-secondary">5</button>
+            <button type="button" class="btn btn-secondary">6</button>
+            <button type="button" class="btn btn-secondary">7</button>
+            <button type="button" class="btn btn-secondary">8</button>
+            <button type="button" class="btn btn-secondary">9</button>
+</div>
+        </div>
+
+  </div>
+</div>
+
+          </div>
+                  <div class="bg-body-tertiary border rounded-3">
+              <div class="bd-example-snippet bd-code-snippet">
+  <div class="bd-example m-0 border-0" style="padding: .2rem">
+
+        <div class="btn-toolbar gap-2 center-block" role="toolbar" aria-label="Toolbar with button groups">
+
+            <button type="button" class="btn btn-secondary">+</button>
+            <button type="button" class="btn btn-secondary">-</button>
+            <button type="button" class="btn btn-secondary">*</button>
+            <button type="button" class="btn btn-secondary">/</button>
+            <button type="button" class="btn btn-secondary">%</button>
+
+        </div>
+
+  </div>
+</div>
+          </div>
+                  <div class="bg-body-tertiary border rounded-3">
+              <div class="bd-example-snippet bd-code-snippet">
+  <div class="bd-example m-0 border-0" style="padding: .2rem">
+
+        <div class="btn-toolbar gap-2 center-block" role="toolbar" aria-label="Toolbar with button groups">
+
+            <button type="button" class="btn btn-secondary">LIKE</button>
+            <button type="button" class="btn btn-secondary">CONCAT</button>
+            <button type="button" class="btn btn-secondary">IN</button>
+
+        </div>
+
+  </div>
+</div>
+          </div>
+              </div></div>
+          </div>
+          <div class="bg-body-tertiary border rounded-3">
+<h3 style="text-align: center" class="title-decor">драйверы распределения</h3><hr>
+              <div class="container-fluid pb-2 ">
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
+          <div class="bg-body-tertiary border rounded-3 container">
+<div class="drop-item"> <p class="h3"><span class="badge bg-primary">Площади</span></p></div>
+<p class="h3 drop-item"><span class="badge bg-secondary">Количество сотрудников</span></p>
+<p class="h3 drop-item"><span class="badge bg-warning">Количество рабочих мест</span></p>
+<p class="h3 drop-item"><span class="badge bg-danger">...</span></p>
           </div>
         </div>
     </div>
+          </div>
+        </div>
+    </div>
+{#    <div class="container-fluid pb-2">#}
+{#        <div class="d-grid gap-3" style="grid-template-columns: 2fr 2fr;">#}
+{#          <div class="bg-body-tertiary border rounded-3">#}
+{#            <br><br><br><br><br><br><br><br><br><br>#}
+{#          </div>#}
+{#          <div class="bg-body-tertiary border rounded-3">#}
+{#            <br><br><br><br><br><br><br><br><br><br>#}
+{#          </div>#}
+{#        </div>#}
+{#    </div>#}
+
     <div class="container-fluid pb-2">
-        <div class="d-grid gap-3" style="grid-template-columns: 2fr 2fr;">
-          <div class="bg-body-tertiary border rounded-3">
-            <br><br><br><br><br><br><br><br><br><br>
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
+          <div class="bg-body-tertiary border rounded-3 dropzone"><h3>код</h3>
+              <br/>
           </div>
           <div class="bg-body-tertiary border rounded-3">
-            <br><br><br><br><br><br><br><br><br><br>
+            <h3>результат</h3>
+              <table class="table table-striped">
+   <thead>
+        <tr>
+            <th scope="col">Компания</th>
+            <th scope="col">Год счёта</th>
+            <th scope="col">Номер счёта</th>
+            <th scope="col">Позиция счёта</th>
+            <th scope="col">Номер позиции распред.</th>
+            <th scope="col">Дата отражения в учётной системе</th>
+            <th scope="col">ID договора</th>
+            <th scope="col">Услуга</th>
+            <th scope="col">ID Услуги</th>
+            <th scope="col">Здание</th>
+            <th scope="col">Класс ОС</th>
+            <th scope="col">ID Осн. средства</th>
+            <th scope="col">Признак. деятельн.</th>
+            <th scope="col">Признак передачи и в аренду</th>
+            <th scope="col">Площадь</th>
+            <th scope="col">Сумма распред.</th>
+            <th scope="col">Счёт главной книги</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+
+
+                <tr>
+                    <td>5500</td>
+                    <td>2024</td>
+                    <td>5006666579</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td></td>
+                    <td>ДПН 5500/183855</td>
+                    <td>8000001805</td>
+                    <td>5004</td>
+                    <td>ЗДН 5500/1/1064</td>
+                    <td>60401018</td>
+                    <td>55006040015814000</td>
+                    <td>Х</td>
+                    <td></td>
+                    <td>44.6</td>
+                    <td>1604.21</td>
+                    <td>7048209010</td>
+                </tr>
+</table>
           </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+<script>
+/*
+// enable draggables to be dropped into this
+interact('.dropzone').dropzone({
+  // only accept elements matching this CSS selector
+  accept: '#yes-drop',
+  // Require a 75% element overlap for a drop to be possible
+  overlap: 0.75,
+
+  // listen for drop related events:
+
+  ondropactivate: function (event) {
+    // add active dropzone feedback
+    event.target.classList.add('drop-active')
+  },
+  ondragenter: function (event) {
+    var draggableElement = event.relatedTarget
+    var dropzoneElement = event.target
+
+    // feedback the possibility of a drop
+    dropzoneElement.classList.add('drop-target')
+    draggableElement.classList.add('can-drop')
+    draggableElement.textContent = 'Dragged in'
+  },
+  ondragleave: function (event) {
+    // remove the drop feedback style
+    event.target.classList.remove('drop-target')
+    event.relatedTarget.classList.remove('can-drop')
+    event.relatedTarget.textContent = 'Dragged out'
+  },
+  ondrop: function (event) {
+    event.relatedTarget.textContent = 'Dropped'
+  },
+  ondropdeactivate: function (event) {
+    // remove active dropzone feedback
+    event.target.classList.remove('drop-active')
+    event.target.classList.remove('drop-target')
+  }
+})
+{##}
+{#interact('.drag-drop')#}
+{#  .draggable({#}
+{#    inertia: true,#}
+{#    modifiers: [#}
+{#      interact.modifiers.restrictRect({#}
+{#        restriction: 'parent',#}
+{#        endOnly: true#}
+{#      })#}
+{#    ],#}
+{#    autoScroll: true,#}
+{#    // dragMoveListener from the dragging demo above#}
+{#    listeners: { move: dragMoveListener }#}
+{#  })#}
+
+
+// enable draggables to be dropped into this
+interact('.dropzone').dropzone({
+  // only accept elements matching this CSS selector
+  //accept: '#yes-drop',
+  // Require a 75% element overlap for a drop to be possible
+  overlap: 0.75,
+
+  // listen for drop related events:
+
+  ondropactivate: function (event) {
+    // add active dropzone feedback
+    event.target.classList.add('drop-active')
+  },
+  ondragenter: function (event) {
+    var draggableElement = event.relatedTarget
+    var dropzoneElement = event.target
+
+    // feedback the possibility of a drop
+    dropzoneElement.classList.add('drop-target')
+    draggableElement.classList.add('can-drop')
+    draggableElement.textContent = 'Dragged in'
+  },
+  ondragleave: function (event) {
+    // remove the drop feedback style
+    event.target.classList.remove('drop-target')
+    event.relatedTarget.classList.remove('can-drop')
+    event.relatedTarget.textContent = 'Dragged out'
+            console.log("Dragged out")
+
+  },
+  ondrop: function (event) {
+    event.relatedTarget.textContent = 'Dropped'
+      console.log("dropped")
+  },
+  ondropdeactivate: function (event) {
+    // remove active dropzone feedback
+    event.target.classList.remove('drop-active')
+    event.target.classList.remove('drop-target')
+  }
+})
+
+interact('.drag-drop')
+  .draggable({
+    inertia: true,
+    modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: 'parent',
+        endOnly: true
+      })
+    ],
+    autoScroll: true,
+    // dragMoveListener from the dragging demo above
+    listeners: { move: dragMoveListener }
+  })
+
+
+function dragMoveListener (event) {
+  var target = event.target
+  // keep the dragged position in the data-x/data-y attributes
+  var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+  // translate the element
+  target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
+
+  // update the posiion attributes
+  target.setAttribute('data-x', x)
+  target.setAttribute('data-y', y)
+}
+
+// this function is used later in the resizing and gesture demos
+window.dragMoveListener = dragMoveListener */
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable/build/umd/index.min.js"></script>
+   <script type="module">
+  import {
+    Draggable,
+    Sortable,
+    Droppable,
+    Swappable
+  } from 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/esm/index.mjs';
+  import * as Plugins from 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/esm/Plugins/index.mjs';
+
+
+  // 2. Specify the event names when create the instance
+const droppable = new Droppable<Droppable.DroppableEventNames | Droppable.CollidableEventNames>(document.querySelectorAll('.container'), {
+  draggable: '.drop-item',
+  dropzone: '.dropzone',
+  collidables: '.other-list',
+  plugins: [Plugins.Collidable],
+});
+
+// The type of the first argument can be DroppableEventNames or CollidableEventNames
+droppable.on('droppable:dropped', (evt) => {
+  // The type of evt is DroppableDroppedEvent
+});
+
+// The type of the first argument can be DroppableEventNames or CollidableEventNames
+droppable.on('collidable:in', (evt) => {
+  // The type of evt is CollidableInEvent
+});
+
+</script>
+<!-- Swappable only -->
+<script type="module">
+  import Swappable from 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/esm/Swappable/Swappable.mjs';
+  import * as Plugins from 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/esm/Plugins/index.mjs';
+</script>
+<!-- UMD browser -->
+<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable/build/umd/index.min.js"></script>
+<script>
+
+</script>
+<script type="module">
+  import Sortable from 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/esm/Sortable/Sortable.mjs';
+  console.log(window.Draggable);
+
+const sortable = new Sortable(document.querySelectorAll('th'), {
+  draggable: 'th',
+});
+
+// The type of the first argument is SortableEventNames
+sortable.on('sortable:sort', (evt) => {
+  // The type of evt is SortableSortEvent
+});
+
+// The type of the first argument is SortableEventNames
+sortable.on('drag:out:container', (evt) => {
+  // The type of evt is DragOutContainerEvent
+});
+</script>
 
 {% endblock %}
