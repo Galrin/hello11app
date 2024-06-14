@@ -1,0 +1,93 @@
+{% extends 'auth/base.html' %}
+
+{% block content %}
+<style>
+/* #message {display: none } */
+#message_content {
+    z-index: 100;
+}
+</style>
+
+<div id="message_content"  class="show form-signin w-100 m-auto position-fixed start-50 translate-middle align-items-center"></div>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-light alert-dismissible fade show form-signin w-100 m-auto position-fixed  start-50 translate-middle align-items-center" role="alert">
+         {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+
+  <form method="POST">
+    <img class="mb-4" src="/static/img/Ruble_Symbol_Currency.png" alt="" width="72" height="57"><b>Казначейство</b>
+    <h1 class="h3 mb-3 fw-normal">Регистрация в системе</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Вася">
+      <label for="floatingInput">Имя пользователя</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="12345">
+      <label for="floatingPassword">Пароль</label>
+    </div>
+    <button id="submit" class="btn btn-primary w-100 py-2" type="submit">Регистрация</button>
+  </form>
+
+        <script>
+    let route = "{{ url_for('auth.api_register') }}";
+    // Example POST method implementation:
+async function postData(url = "", data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "same-origin", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+document.getElementById("submit").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    username = document.getElementById("floatingInput").value;
+    password = document.getElementById("floatingPassword").value;
+
+ postData(route, { "username": username, "password": password }).then((data) => {
+     console.log(data);
+    var isSuccess = data.success;
+    var message = data.message;
+
+    if(isSuccess == true) {
+        document.location.href = message
+    } else {
+        var div = document.createElement("div")
+        //div.classList.add("alert", "alert-light", "alert-dismissible", "fade", "show", "form-signin", "w-100", "m-auto", "position-fixed",  "start-50", "translate-middle", "align-items-center");
+        div.classList.add("alert", "alert-dark", "alert-dismissible", "fade", "show", "form-signin");
+        div.setAttribute("role", "alert");
+        div.innerHTML = message;
+
+        var button = document.createElement("button");
+        button.classList.add("btn-close");
+        button.setAttribute("type","button");
+        button.setAttribute("data-bs-dismiss","alert");
+        button.setAttribute("aria-label","Close");
+
+        div.appendChild(button);
+        document.getElementById("message_content").appendChild(div);
+        {#document.getElementById("message").style = "display: block";#}
+        {#document.getElementById("message_text").innerHTML = message;#}
+    }
+  console.log(data); // JSON data parsed by `data.json()` call
+});
+
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'auth/base.html' %}
+{% block content %}
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-light alert-dismissible fade show form-signin w-100 m-auto position-fixed  start-50 translate-middle align-items-center" role="alert">
+         {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+  <form method="POST">
+{#    <img class="mb-4" src="/static/img/Ruble_Symbol_Currency.png" alt="" width="72" height="57"><b>Казначейство</b>#}
+    <h1 class="h3 mb-3 fw-normal">Вход в систему</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Вася">
+      <label for="floatingInput">Имя пользователя</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="12345">
+      <label for="floatingPassword">Пароль</label>
+    </div>
+
+<!--     <div class="form-check text-start my-3">
+      <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Remember me
+      </label>
+    </div>-->
+    <button class="btn btn-primary w-100 py-2" type="submit">Войти</button>
+    
+  </form>
+{% endblock content %}

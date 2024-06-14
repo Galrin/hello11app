@@ -1,0 +1,39 @@
+{% extends 'auth/base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}  
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-light alert-dismissible fade show form-signin w-100 m-auto position-fixed  start-50 translate-middle align-items-center" role="alert">
+         {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+<!--
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    <input type="submit" value="Register">
+  </form>-->
+
+  <form method="POST">
+{#    <img class="mb-4" src="/static/img/Ruble_Symbol_Currency.png" alt="" width="72" height="57"><b>Казначейство</b>#}
+    <h1 class="h3 mb-3 fw-normal">Регистрация в системе</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Вася">
+      <label for="floatingInput">Имя пользователя</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="12345">
+      <label for="floatingPassword">Пароль</label>
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Регистрация</button>
+  </form>
+{% endblock %}
