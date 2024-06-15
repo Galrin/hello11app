@@ -37,7 +37,7 @@ https://localhost:5000/main/api/intent/invoice/<string:file_name>
    от `a`
    до `z`.
    Разработчик может выделить диапазон флагов доступа для конкретной задачи на конкретной странице. `'rwxthqz'`
-![Alt text](/img/role.png "Optional Title")
+![Alt text](/img/user_role_roledenyroute.png "Optional Title")
 ---
 
 ## Инструкция по установке
