@@ -5,6 +5,8 @@ from datetime import datetime
 from pony.flask import Pony
 from pony.orm import Database, LongStr, PrimaryKey, Required, Set, Optional, db_session
 
+from config import Config
+
 # from flask_socketio import SocketIO, emit
 
 # from flask_restful import Resource, Api
@@ -72,7 +74,12 @@ def create_app(test_config=None) -> Flask:
         # PONY={'provider': 'sqlite',
         #       'filename': os.path.join(app.instance_path, "hello11app.db"),
         #       'create_db': True}
-        PONY={'provider': 'mysql', 'host': '127.0.0.1', 'user': 'root', 'passwd': 'qwerty', 'db': 'web11'}
+        PONY={'provider': Config.DATABASE_PROVIDER,
+              'host': Config.DATABASE_HOST,
+              'user': Config.DATABASE_USER,
+              'passwd': Config.DATABASE_PASSWORD,
+              'db': Config.DATABASE_NAME
+              }
     )
 
     if test_config is None:
