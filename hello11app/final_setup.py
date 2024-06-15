@@ -12,8 +12,6 @@ bp = Blueprint("main_" + _name, __name__)
 
 
 @bp.route("/setup" + _name)
-@login_required
-@route_access
 def index():
 
 
@@ -24,8 +22,6 @@ def index():
 
 
 @bp.route("/create/role", methods=("GET", "POST"))
-@login_required
-@route_access
 def reg_api():
     print("path exist"
           if request.path in [role.route for role in g.user.role.role_routes]
