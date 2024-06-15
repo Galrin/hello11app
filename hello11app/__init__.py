@@ -113,6 +113,7 @@ def create_app(test_config=None) -> Flask:
     from . import main_distributions
     from . import main_forecast
     from . import main_reports
+    from . import final_setup
 
     app.register_blueprint(auth.bp)
     # app.register_blueprint(blog.bp)
@@ -124,6 +125,8 @@ def create_app(test_config=None) -> Flask:
     app.register_blueprint(main_distributions.bp)
     app.register_blueprint(main_forecast.bp)
     app.register_blueprint(main_reports.bp)
+
+    app.register_blueprint(final_setup.bp)
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
