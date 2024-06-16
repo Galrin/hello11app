@@ -49,7 +49,54 @@ var select = 1;
 
 var table_title = document.getElementById('table_title');
 
+function pivot(arr) {
+  const pivotedArr = [];
 
+  if (!arr || arr.length === 0 || !arr[0] || arr[0].length === 0) {
+    return pivotedArr;
+  }
+
+  const rowCount = arr.length;
+  const colCount = arr[0].length;
+
+  for (let i = 0; i < rowCount; i++) {
+    for (let j = 0; j < colCount; j++) {
+      if (!pivotedArr[j]) {
+        pivotedArr[j] = [];
+      }
+
+      pivotedArr[j][i] = arr[i][j];
+    }
+  }
+
+  return pivotedArr;
+}
+
+function rotate_arr_by_90_deg_r(arr){
+
+    let n_arr= []; // новый перевёрнутый массив
+
+    let n_rows = arr[0].length;   // количество новых строк
+
+    let n_cols = arr.length;      // количество новых столбцов
+
+    for(let x = 0; x < n_rows; x++){
+
+        let row_arr = []; // это элемент из нового массива
+
+        for(let y = (n_cols - 1), z = 0; y >= 0; y--, z++){
+
+            row_arr[z] = arr[y][x];
+
+        }
+
+        n_arr[x] = row_arr;
+
+    };
+
+    return n_arr;
+
+};
     function book_select(el) {
         console.log(el);
         console.log(el.getAttribute('book-select'));
@@ -71,16 +118,19 @@ var table_title = document.getElementById('table_title');
           .then(data => {
             // Process the retrieved user data
             console.log('data:', data);
+            var a = pivot(data.data);
+            console.log(a)
+            //a.shift();
+            console.log(a);
+
             table_title.innerHTML = data.book_name;
             container.innerHTML = ""; //.remove();
             hot = new Handsontable(container, {
-              data: [
-                data.data
-              ],
-              rowHeaders: true,
+              data: data.data,
+              rowHeaders: false,
               colHeaders: true,
               height: 'auto',
-              autoWrapRow: true,
+              autoWrapRow: false,
               autoWrapCol: true,
               licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
             });

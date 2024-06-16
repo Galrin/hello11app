@@ -32,11 +32,15 @@ def get_data(book_index = 1):
         rows = db.select(f"SELECT * FROM `{books[book_index]}`")
         #for row in rows:
         #    print(row[0], row[1], row[2])
-        print(jsonify(rows))
+        print(jsonify({"success": True, "data": rows, "book_name": books[book_index], "book_index": book_index}))
 
     except Exception as e:
         print("error", str(e))
-        return jsonify({"book_index": book_index, "book_name": books[book_index], "success": False, "error": str(e), "data": [1,2,3]})
+        return jsonify({"book_index": book_index, "book_name": books[book_index], "success": False, "error": str(e), "data": [
+            [1,2,3],
+            [2,3,4],
+            [3,4,5]
+        ]})
 
-    return jsonify(
-        {"book_index": book_index, "success": True, "data": rows})
+    return jsonify({"success": True, "data": rows, "book_name": books[book_index], "book_index": book_index})
+
