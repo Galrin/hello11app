@@ -31,6 +31,28 @@
     <div class="col-10" style="padding-top: 1em;">
         <span id="table_title" class="title-decor" style="color: #0f5132"></span>
         <div id="example"></div>
+        <ul class="pagination pagination-sm" id="pagination">
+
+          </ul>
+{#        <ul class="pagination pagination-lg flex-wrap disabled">#}
+{#            <li class="page-item disabled">#}
+{#              <a class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">#}
+{#  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>#}
+{#</svg>&nbsp;&nbsp;Пред.</a>#}
+{#            </li>#}
+{#            <li class="page-item disabled"><a class="page-link" href="#">1</a></li>#}
+{#            <li class="page-item active  disabled" aria-current="page">#}
+{#              <a class="page-link" href="#">2</a>#}
+{#            </li>#}
+{#            <li class="page-item disabled"><a class="page-link" href="#">3</a></li>#}
+{#            <li class="page-item disabled"><a class="page-link" href="#">4</a></li>#}
+{#            <li class="page-item disabled"><a class="page-link" href="#">5</a></li>#}
+{#            <li class="page-item disabled">#}
+{#              <a class="page-link" href="#">След.&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">#}
+{#  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>#}
+{#</svg></a>#}
+{#            </li>#}
+{#          </ul>#}
 
 
     </div>
@@ -46,6 +68,9 @@ var hot = null;
 //hot.setDataAtCell(0, 0, 'Ford');
 const api_url = '{{ url_for('main_books.get_data') }}';
 var select = 1;
+var page = 0;
+var page_el = undefined;
+var chunks = [];
 
 var table_title = document.getElementById('table_title');
 
@@ -97,7 +122,61 @@ function rotate_arr_by_90_deg_r(arr){
     return n_arr;
 
 };
+
+function nav_page(id) {
+    console.log(id);
+}
+function pagination(chunk_size) {
+    let container_page = document.getElementById("pagination");
+    container_page.innerHTML = "";
+    for (let i = 0; i < Math.min(20,chunk_size); i++) {
+        let li = document.createElement('li');
+        li.classList.add("page-item");
+        var a = document.createElement('a');
+        a.classList.add('page-link');
+        if(i == page) {
+            a.classList.add('active');
+            page_el = a;
+        }
+        a.addEventListener('click', function () {
+            console.log((this.innerHTML));
+
+            if(page_el !== undefined)
+                page_el.classList.remove('active');
+
+            page_el = this;
+
+
+            page = this.innerHTML;
+            this.classList.add('active');
+
+            container.innerHTML = ""; //.remove();
+            hot = new Handsontable(container, {
+              data: o[page],
+              rowHeaders: false,
+              colHeaders: true,
+              height: 'auto',
+              autoWrapRow: false,
+              autoWrapCol: true,
+              licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+            });
+        });
+        a.innerHTML = "" + i;
+        li.appendChild(a);
+        //li.setAttribute('page_id', i);
+        //li.innerHTML = "<a class=\"page-link\" onclick=\"nav_page(" + i + ")  href='#'>" + i + "</a>";
+        container_page.appendChild(
+            li
+        )
+    }
+}
+
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
     function book_select(el) {
+        page = 0;
         console.log(el);
         console.log(el.getAttribute('book-select'));
         select = el.getAttribute('book-select')
@@ -118,15 +197,24 @@ function rotate_arr_by_90_deg_r(arr){
           .then(data => {
             // Process the retrieved user data
             console.log('data:', data);
-            var a = pivot(data.data);
-            console.log(a)
+            //var a = pivot(data.data);
+            //console.log(a)
             //a.shift();
-            console.log(a);
+            //console.log(a);
+            len = data.data.length;
+            console.log(len);
+            o = chunk(data.data, Math.min(20));
+            chunks = o;
+            console.log(chunk(data.data, Math.min(20))); // ,Math.round(len/10)
+            console.log(o.length);
 
+            if(o.length > 1) {
+                pagination(o.length);
+            }
             table_title.innerHTML = data.book_name;
             container.innerHTML = ""; //.remove();
             hot = new Handsontable(container, {
-              data: data.data,
+              data: o[page],
               rowHeaders: false,
               colHeaders: true,
               height: 'auto',
