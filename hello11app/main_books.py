@@ -9,6 +9,14 @@ from hello11app.auth import login_required, route_access
 
 bp = Blueprint("main_books", __name__)
 
+books = {
+    1: "build",
+    2: "contract",
+    3: "service",
+    4: "basic",
+    5: "general_ledger"
+}
+
 
 @bp.route("/main/books")
 @login_required

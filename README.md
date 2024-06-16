@@ -8,6 +8,11 @@
 
 Анализ данных `PANDAS` `SKLEARN`.
 
+Backend распределения 
+https://github.com/igr76/ServiceExpensesIncome1 
+
+`Java` `Spring Boot`
+
 ## Загрузка массива данных из первичных документов
 
 в системе существует `REST API` для инициации загрузки существующего массива данных в формате `.csv`. Запрос `GET`:
