@@ -1,70 +1,98 @@
 {% extends 'main/index.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
 
 <div class="container">
+    <div class="row"><div class="col"><h2 class="pb-2 border-bottom border-success">Справочники</h2></div></div>
   <div class="row">
-    <div class="col-3" style="padding-top: 1em;">
-{#        <div class="bd-example m-0 border-0" >#}
-{##}
-{#        <div class="list-group  gap-1">#}
-{#          <a href="#" class="list-group-item list-group-item-action">A simple default list group item</a>#}
-{##}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-primary">A simple primary list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">A simple secondary list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-success">A simple success list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-warning">A simple warning list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-light">A simple light list group item</a>#}
-{#          <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>#}
-{#        </div>#}
-{##}
-{#        </div>#}
+
+
+
+    <div class="col-2" style="padding-top: 1em;">
+
     <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
         <input book-select="1" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked="">
-        <label class="btn btn-outline-danger" for="vbtn-radio1">Площади зданий</label>
+        <label class="btn btn-outline-success" for="vbtn-radio1">Площади зданий</label>
 
         <input book-select="2" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
-        <label class="btn btn-outline-danger" for="vbtn-radio2">Договора</label>
+        <label class="btn btn-outline-success" for="vbtn-radio2">Договора</label>
 
         <input book-select="3" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-        <label class="btn btn-outline-danger" for="vbtn-radio3">Коды услуг</label>
+        <label class="btn btn-outline-success" for="vbtn-radio3">Коды услуг</label>
 
         <input book-select="4" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
-        <label class="btn btn-outline-danger" for="vbtn-radio4">Основные Средства</label>
+        <label class="btn btn-outline-success" for="vbtn-radio4">Основные Средства</label>
 
         <input book-select="5" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
-        <label class="btn btn-outline-danger" for="vbtn-radio5">Счета главной книги</label>
+        <label class="btn btn-outline-success" for="vbtn-radio5">Счета главной книги</label>
     </div>
     </div>
-    <div class="col-9" style="padding-top: 1em;">
-          <table id="my_table_id"
-    data-url="data/url.json"
-    data-id-field="id"
-    data-editable-emptytext="Default empty text."
-    data-editable-url="/my/editable/update/path">
-    <thead>
-      <tr>
-        <th class="col-md-1" data-field="id" data-sortable="true" data-align="center">#</th>
-        <th class="col-md-4" data-field="name" data-editable="true">Name</th>
-        <th class="col-md-7" data-field="description" data-editable="true" data-editable-emptytext="Custom empty text.">Description</th>
-      </tr>
-    <tbody>
-          <tr><td>aa</td><td>bb</td><td>cc</td></tr>
-          </tbody>
-    </thead>
-  </table>
+    <div class="col-10" style="padding-top: 1em;">
+        <span id="table_title" class="title-decor" style="color: #0f5132"></span>
+        <div id="example"></div>
 
 
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
     <script>
+const container = document.querySelector('#example');
+
+var hot = null;
+
+//hot.setDataAtCell(0, 0, 'Ford');
+const api_url = '{{ url_for('main_books.get_data') }}';
+var select = 1;
+
+var table_title = document.getElementById('table_title');
+
+
     function book_select(el) {
         console.log(el);
         console.log(el.getAttribute('book-select'));
+        select = el.getAttribute('book-select')
+
+        // Specify the API endpoint for user data
+
+        get_data()
     }
+
+    function get_data(){
+                fetch(api_url + select)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Process the retrieved user data
+            console.log('data:', data);
+            table_title.innerHTML = data.book_name;
+            container.innerHTML = ""; //.remove();
+            hot = new Handsontable(container, {
+              data: [
+                data.data
+              ],
+              rowHeaders: true,
+              colHeaders: true,
+              height: 'auto',
+              autoWrapRow: true,
+              autoWrapCol: true,
+              licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+            });
+
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+    }
+
+window.onload = function () {
+    get_data()
+}
     </script>
-    <script src="/static/assets/dist/extensions/editable/bootstrap-table-editable.js"></script>
 {% endblock %}
