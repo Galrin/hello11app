@@ -1,16 +1,284 @@
 {% extends 'main/index.html' %}
 
 {% block content %}
+<style>
+  body {
+    overflow-y: scroll !important;
+  }
+  tbody tr:first-child {
+    outline: .2rem solid #DC143C;
+    outline-offset: -.1rem;
+  }
+</style>
 <div class="container">
+
+    <div class="row"><div class="col"><h2 class="pb-2 border-bottom border-danger">Распределение</h2></div></div>
   <div class="row">
-    <div class="col">col</div>
-    <div class="col">col</div>
-    <div class="col">col</div>
-    <div class="col">col</div>
-  </div>
-  <div class="row">
-    <div class="col-8">col-8</div>
-    <div class="col-4">col-4</div>
-  </div>
+      <div class="bg-body-tertiary border rounded-3" style="padding-top: .5rem; padding-bottom: .5rem;">
+          <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h4 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Редактор SQL Запроса (Правила распределения)
+              </button>
+            </h4>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+              <div class="accordion-body">
+                <textarea id="sql" style="width: 100%; height: 18rem;">SELECT DISTINCT
+inv.`Компания`,
+inv.`Год` as `Год счета`,
+inv.`Номер счета`,
+inv.`Позиция счета`,
+"1" as `Номер позиции распределения`,
+inv.`Дата отражения счета в учетной системе`,
+inv.`ID договора`,
+inv.`ID услуги` as `Услуга`,
+(SELECT s.`Класс услуги` FROM service s WHERE s.`ID услуги` = inv.`ID услуги` LIMIT 1) as `Класс услуги`,
+rcb.`ID здания` as `Здание`,
+ca.`Класс основного средства` as `Класс ОС`,
+ca.`ID основного средства`,
+ca.`Признак "Используется в основной деятельности"`,
+ca.`Признак "Способ использования"`,
+b.`Площадь`,
+ROUND(COALESCE(( (inv.`Стоимость без НДС` / b.`Площадь`) * ca.`Площадь` ), inv.`Стоимость без НДС`, NULL), 2) as `Сумма распределения`
+FROM invoice inv
+LEFT JOIN relation_contract_build rcb ON rcb.`ID договора` = inv.`ID договора`
+LEFT JOIN build b ON b.Здание = rcb.`ID здания`  AND (b.`Конец владения` > inv.`Дата отражения счета в учетной системе` AND b.`Измер. действит. по`>  inv.`Дата отражения счета в учетной системе`)
+LEFT JOIN capital_assets_1 ca ON ca.`ID здания` = rcb.`ID здания` AND ca.`Дата окончания действия связи с зданием` > inv.`Дата отражения счета в учетной системе`
+order by inv.id;
+            </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item ">
+            <h4 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                Запуск распределения
+              </button>
+            </h4>
+            <div id="collapseTwo" class="accordion-collapse show" data-bs-parent="#accordionExample" style="">
+              <div class="accordion-body">
+
+                <div class="bd-example bd-example-flex">
+
+        <div class="d-flex justify-content-between mb-3">
+
+
+            <div class="bg-body-tertiary border rounded-3">
+                <code style="padding: 2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                </svg>&nbsp;&nbsp;Статус распределения: <span id="status">ожидание старта</span></code><br/>
+                <code style="padding: 2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+</svg>&nbsp;&nbsp;Файл распределения: '<span id="exec_file_name">{% if not file_name %}Файл не загружен!{% else %}{{file_name}}{% endif %}</span>'</code>
+          </div>
+          <div class="p-2 bd-highlight">
+            <button id="start_button" type="button" class="btn btn-outline-danger pb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rocket-takeoff" viewBox="0 0 16 16">
+  <path d="M9.752 6.193c.599.6 1.73.437 2.528-.362s.96-1.932.362-2.531c-.599-.6-1.73-.438-2.528.361-.798.8-.96 1.933-.362 2.532"/>
+  <path d="M15.811 3.312c-.363 1.534-1.334 3.626-3.64 6.218l-.24 2.408a2.56 2.56 0 0 1-.732 1.526L8.817 15.85a.51.51 0 0 1-.867-.434l.27-1.899c.04-.28-.013-.593-.131-.956a9 9 0 0 0-.249-.657l-.082-.202c-.815-.197-1.578-.662-2.191-1.277-.614-.615-1.079-1.379-1.275-2.195l-.203-.083a10 10 0 0 0-.655-.248c-.363-.119-.675-.172-.955-.132l-1.896.27A.51.51 0 0 1 .15 7.17l2.382-2.386c.41-.41.947-.67 1.524-.734h.006l2.4-.238C9.005 1.55 11.087.582 12.623.208c.89-.217 1.59-.232 2.08-.188.244.023.435.06.57.093q.1.026.16.045c.184.06.279.13.351.295l.029.073a3.5 3.5 0 0 1 .157.721c.055.485.051 1.178-.159 2.065m-4.828 7.475.04-.04-.107 1.081a1.54 1.54 0 0 1-.44.913l-1.298 1.3.054-.38c.072-.506-.034-.993-.172-1.418a9 9 0 0 0-.164-.45c.738-.065 1.462-.38 2.087-1.006M5.205 5c-.625.626-.94 1.351-1.004 2.09a9 9 0 0 0-.45-.164c-.424-.138-.91-.244-1.416-.172l-.38.054 1.3-1.3c.245-.246.566-.401.91-.44l1.08-.107zm9.406-3.961c-.38-.034-.967-.027-1.746.163-1.558.38-3.917 1.496-6.937 4.521-.62.62-.799 1.34-.687 2.051.107.676.483 1.362 1.048 1.928.564.565 1.25.941 1.924 1.049.71.112 1.429-.067 2.048-.688 3.079-3.083 4.192-5.444 4.556-6.987.183-.771.18-1.345.138-1.713a3 3 0 0 0-.045-.283 3 3 0 0 0-.3-.041Z"/>
+  <path d="M7.009 12.139a7.6 7.6 0 0 1-1.804-1.352A7.6 7.6 0 0 1 3.794 8.86c-1.102.992-1.965 5.054-1.839 5.18.125.126 3.936-.896 5.054-1.902Z"/>
+</svg> Запустить распределение
+  </button>
 </div>
+        </div>
+    </div>
+          </div>
+        </div>
+    </div>
+          <div class="accordion-item">
+            <h4 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Результат распределения
+              </button>
+            </h4>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+
+    <table id="table_item" class="table table-borderless">
+        <thead class="border-bottom border-danger">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Имя файла</th>
+            <th scope="col" style="width:12rem">Дата распределения</th>
+            <th scope="col">Отправитель</th>
+            <th scope="col">На вход строк</th>
+            <th scope="col">На выходе строк</th>
+            <th scope="col" style="width:14rem">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__ссылка на файл___</th>
+        </tr>
+        </thead>
+        <tbody id="result_table">
+          {% set item_count = distributed | length %}
+          {% if item_count %}
+          {% for item in distributed %}
+          <tr>
+            <th scope="row">{{item.id}}</th>
+            <td><code id="result_file_name">{{item.file_name}}</code></td>
+            <td><code id="result_distributed_date">{{item.date}}</code></td>
+            <td><code id="result_owner">{{item.invoice.upload_from_user_id.username}}</code></td>
+            <td><code id="result_input_count">{{rows_count}}</code></td>
+            <td><code id="result_output_count">{{item.rows_count}}</code></td>
+            <td><div class="p-2 bd-highlight">
+        <button onclick="download_csv(this)" download-url="{{item.date}}_{{item.file_name}}" type="button" class="btn btn-outline-danger pb-2 download_button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+<path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z"/>
+</svg> Выгрузить в CSV</button>
+    </div></td>
+        </tr>
+          {% endfor %}
+          {% else  %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td><code id="result_file_name">_</code></td>
+                    <td><code id="result_distributed_date">0000-00-00</code></td>
+                    <td><code id="result_owner">_</code></td>
+                    <td><code id="result_input_count">0</code></td>
+                    <td><code id="result_output_count">0</code></td>
+                    <td><div class="p-2 bd-highlight">
+                <button type="button" class="btn btn-outline-danger pb-2 download_button" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+  <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z"/>
+</svg> Выгрузить в CSV</button>
+            </div></td>
+                </tr>
+                {% endif %}
+              </tbody></table>  </div>
+            </div>
+          </div>
+        </div>
+              <div class="container-fluid pb-2">
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr;">
+          <div class="bg-body-tertiary border rounded-3">
+
+          </div>
+        </div>
+    </div>
+          </div>
+  </div>
+
+
+
+</div>
+    <script src="/static/js/jquery-3.7.1.min.js"></script>
+    <script>
+    var csv = "data:text/csv;charset=utf-8,";
+
+    let sql = document.getElementById("sql");
+    let exec_name = document.getElementById("exec_file_name");
+    let status = document.getElementById("status");
+
+    let button_download = document.getElementById("download_button");
+    /*button_download.addEventListener('click',function (e) {
+            e.preventDefault();
+        var encodedUri = encodeURI(csv);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "данные.csv");
+    document.body.appendChild(link);
+
+    // Эмулируем клик по ссылке для скачивания файла
+    link.click();
+
+    // Удаляем элемент <a> из DOM
+    document.body.removeChild(link);
+    });
+    */
+    function download_csv(e) {
+      console.log(e);
+      //e.preventDefault();
+      
+      var link = document.createElement("a");
+      link.setAttribute("href", "/distribution/csv/" + e.getAttribute('download-url'));
+      
+      document.body.appendChild(link);
+  
+      // Эмулируем клик по ссылке для скачивания файла
+      link.click();
+  
+      // Удаляем элемент <a> из DOM
+      document.body.removeChild(link);
+      }
+
+    //button_download.addEventListener('click',download_csv);
+    
+    //button_download.style = "display:none";
+
+    let button_start = document.getElementById("start_button");
+    button_start.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        status.innerHTML = "запуск...";
+
+        // создать xhr, отправить имя файла? и sql
+        //
+        // получить ответ - вывести в статус - завершено успешно
+        // ответ - содержит имя файла для скачивания.  где нибудь в static?
+        // ответ содержит доп. информацию - количество входящих строк - количество исходящих строк
+        // дату
+
+        xhr_start();
+    });
+
+
+    let result_file_name = document.getElementById("result_file_name");
+    let result_distributed_date = document.getElementById("result_distributed_date");
+    let result_input_count = document.getElementById("result_input_count");
+    let result_output_count = document.getElementById("result_output_count");
+
+
+    function xhr_start() {
+
+        let upload_handler_url = '/distribution/request/start';
+        //let intent_handler_url = '/main/api/intent/invoice';
+
+            const formData = new FormData();
+            formData.append('file_name', exec_name.innerText);
+            formData.append('sql', sql.value);
+            console.log(sql.value)
+            //console.log(file)
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', upload_handler_url, true);
+            xhr.onload = function () {
+                console.log(xhr.responseText);
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    data = JSON.parse(xhr.responseText);
+/*
+                        // Заголовок CSV
+    csv += Object.keys(data.csv[0]).join(",") + "\n";
+
+    // Данные CSV
+    data.csv.forEach(function(item) {
+        csv += Object.values(item).join(",") + "\n";
+    }); 
+    */
+                    console.log(data);
+                    if(data["success"] == true) {
+                        status.innerText = "Распределение завершено.";
+
+//document.getElementById("collapseThree").click();
+                        document.getElementById("headingThree").classList.remove("collapsed");
+                        document.getElementById("collapseThree").classList.add("show");
+
+
+                        console.log($('#table_item').html())
+                        var table_url = "{{ url_for('main_distributions.index') }}";
+                        $("#table_item").load(table_url + ' #table_item', function () {
+                            console.log("table reloaded");
+                            //document.getElementById('table').innerHTML(this.innerHTML);
+                        });
+                    }
+                   // if(xhr.responseText)
+                } else {
+                    console.log('Произошла ошибка при обработке файла.');
+                    status.innerText = "Произошла ошибка при обработке файла.";
+                }
+            };
+
+            xhr.send(formData);
+    }
+    </script>
 {% endblock %}

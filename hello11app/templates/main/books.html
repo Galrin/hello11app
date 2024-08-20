@@ -4,32 +4,45 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
 
 <div class="container">
-    <div class="row"><div class="col"><h2 class="pb-2 border-bottom border-success">Справочники</h2></div></div>
+    <div class="row"><div class="col"><h2 class="pb-2 border-bottom border-danger">Справочники</h2></div></div>
   <div class="row">
 
 
 
-    <div class="col-2" style="padding-top: 1em;">
+    <div class="col-3 w-30" style="padding-top: 1em;">
+                <form class="d-flex" role="search" style="margin-bottom: 1rem;">
+                    <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
+                    <button class="btn btn-outline-danger" type="submit">Поиск</button>
+                </form>
+    <div class="btn-group-vertical" style="width: 100%" role="group" aria-label="Vertical radio toggle button group">
+        <input book-select="1" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked="" info="Площади зданий">
+        <label class="btn btn-outline-secondary" for="vbtn-radio1">Площади зданий</label>
 
-    <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-        <input book-select="1" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked="">
-        <label class="btn btn-outline-success" for="vbtn-radio1">Площади зданий</label>
+        <input book-select="2" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" info="Договоры">
+        <label class="btn btn-outline-secondary" for="vbtn-radio2">Договоры</label>
 
-        <input book-select="2" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
-        <label class="btn btn-outline-success" for="vbtn-radio2">Договора</label>
+        <input book-select="3" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" info="Коды услуг">
+        <label class="btn btn-outline-secondary" for="vbtn-radio3">Коды услуг</label>
 
-        <input book-select="3" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-        <label class="btn btn-outline-success" for="vbtn-radio3">Коды услуг</label>
+        <input book-select="4" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off" info="Основные Средства">
+        <label class="btn btn-outline-secondary" for="vbtn-radio4">Основные Средства</label>
 
-        <input book-select="4" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
-        <label class="btn btn-outline-success" for="vbtn-radio4">Основные Средства</label>
+        <input book-select="5" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off" info="Счета главной книги">
+        <label class="btn btn-outline-secondary" for="vbtn-radio5">Счета главной книги</label>
 
-        <input book-select="5" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
-        <label class="btn btn-outline-success" for="vbtn-radio5">Счета главной книги</label>
+        <input book-select="6" onclick="book_select(this)" type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off" info="Счета на оплату">
+        <label class="btn btn-outline-warning" for="vbtn-radio6">Счета на оплату</label>
     </div>
+        <div class="btn-group-vertical" style="width: 100%; margin-top: 1rem;" >
+        <button type="button" class="btn btn-outline-danger">Сохранить изменения</button>
+        </div>
     </div>
-    <div class="col-10" style="padding-top: 1em;">
-        <span id="table_title" class="title-decor" style="color: #0f5132"></span>
+    <div class="col-9  w-70" style="padding-top: 1em;">
+        <div class="container align-content-end" style="display: none">
+            <div class="col-1"><button id="table_title" type="button" class="btn btn-success"></button></div>
+        </div>
+
+{#        <span class="title-decor" style="color: #0f5132"></span>#}
         <div id="example"></div>
         <ul class="pagination pagination-sm" id="pagination">
 
@@ -181,7 +194,8 @@ const chunk = (arr, size) =>
         console.log(el.getAttribute('book-select'));
         select = el.getAttribute('book-select')
 
-        // Specify the API endpoint for user data
+        table_title.innerHTML = el.getAttribute('info')
+
 
         get_data()
     }
@@ -211,7 +225,7 @@ const chunk = (arr, size) =>
             if(o.length > 1) {
                 pagination(o.length);
             }
-            table_title.innerHTML = data.book_name;
+            //table_title.innerHTML = data.book_name;
             container.innerHTML = ""; //.remove();
             hot = new Handsontable(container, {
               data: o[page],

@@ -5,7 +5,8 @@ from flask import (
 from pony.orm import desc
 from werkzeug.exceptions import abort
 
-from . import Post, Role
+# from . import Post
+from . import Role
 from .auth import login_required
 
 bp = Blueprint("dashboard", __name__)

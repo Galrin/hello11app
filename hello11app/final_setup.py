@@ -4,7 +4,7 @@ from flask import (
 from pony.orm import desc, commit
 from werkzeug.exceptions import abort
 
-from hello11app import Post, Role, RoleDenyRoute, User
+from hello11app import Role, RoleDenyRoute, User
 from hello11app.auth import login_required, route_access
 
 _name = "final_setup"
@@ -13,12 +13,7 @@ bp = Blueprint("main_" + _name, __name__)
 
 @bp.route("/setup" + _name)
 def index():
-
-
-
     return jsonify({"success": True, "message": "Hello World!"})
-
-
 
 
 @bp.route("/create/role", methods=("GET", "POST"))

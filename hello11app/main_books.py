@@ -4,7 +4,7 @@ from flask import (
 from pony.orm import desc
 from werkzeug.exceptions import abort
 
-from hello11app import Post, db
+from hello11app import db
 from hello11app.auth import login_required, route_access
 
 bp = Blueprint("main_books", __name__)
@@ -13,8 +13,9 @@ books = {
     1: "build",
     2: "contract",
     3: "service",
-    4: "basic",
-    5: "general_ledger"
+    4: "capital_assets",
+    5: "general_ledger",
+    6: "invoice"
 }
 
 
@@ -30,8 +31,8 @@ def index():
 def get_data(book_index = 1):
     try:
         rows = db.select(f"SELECT * FROM `{books[book_index]}`")
-        #for row in rows:
-        #    print(row[0], row[1], row[2])
+        # for row in rows:
+        #     print(row[0], row[1], row[2])
         print(jsonify({"success": True, "data": rows, "book_name": books[book_index], "book_index": book_index}))
 
     except Exception as e:

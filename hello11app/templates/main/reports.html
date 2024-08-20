@@ -1,12 +1,44 @@
 {% extends 'main/index.html' %}
 
 {% block content %}
-  <div class="container px-4 py-5" id="icon-grid">
-    <h2 class="pb-2 border-bottom">Отчётность</h2>
+<style>
+  table {
+    margin: 1rem;
+  }
+  
+</style>
+    <div class="p-2 m-4 bd-highlight"><h3 class="fw-bold">Отчётность</h3></div>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
-
-
-    </div>
+    <table id="table_item" class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Имя файла</th>
+            <th scope="col">Дата загрузки</th>
+            <th scope="col">количество строк</th>
+            <th scope="col">от пользователя</th>
+        </tr>
+        </thead>
+        {% if items %}<tbody class="table-group-divider">
+            {% for item in items %}
+                <tr class="table-active">
+                    <th scope="row">{{ item.id }}</th>
+                    <td>{{ item.file_name }}</td>
+                    <td>{{ item.upload_date }}</td>
+                    <td>{{ item.rows_count }}
+                    <td>{{ item.upload_from_user_id.username }}</td>
+                </tr>
+                <tr valign="top" align="right">
+                  {% set item_count = item.distributed | length %}
+                  <td><h4>Распределение:</h4> {{"не проводилось" if not item_count else "{} выполненных задач".format(item_count)}}<br><a href="{{ url_for('main_distributions.index') }}">перейти к деталям</a><br></td>
+                  <td><h4>Прогнозирование:</h4> не проводилось<br><a href="{{ url_for('main_forecast.index') }}">перейти к деталям</a><br></td>
+                </tr>
+            {% endfor %} </tbody>
+        {% else %}
+            <tr valign="center">
+            <div class="container p-2 m-4" style="text-align: center"><h5 class="fw-bold">Данные отсутствуют</h5></div>
+            </tr>
+        {% endif %}
+    </table>
   </div>
 {% endblock %}

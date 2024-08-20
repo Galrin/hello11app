@@ -1,10 +1,8 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from pony.orm import desc
+# from pony.orm import desc
 from werkzeug.exceptions import abort
-
-from . import Post
 from .auth import login_required
 
 bp = Blueprint("cover", __name__)

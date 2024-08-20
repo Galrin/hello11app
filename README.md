@@ -1,4 +1,4 @@
-# Приложение для бизнеса.
+# Приложение для бизнеса
 
 ## Используемые технологии
 
@@ -9,8 +9,8 @@
 Анализ данных `PANDAS` `SKLEARN`.
 
 Backend распределение - анализ - прогнозирование
-https://github.com/igr76/ServiceExpensesIncome1 
-TG: https://t.me/igr766
+<https://github.com/igr76/ServiceExpensesIncome1>
+TG: <https://t.me/igr766>
 `Java` `Spring Boot`
 
 ## Загрузка массива данных из первичных документов
@@ -48,6 +48,7 @@ https://localhost:5000/main/api/intent/invoice/<string:file_name>
    до `z`.
    Разработчик может выделить диапазон флагов доступа для конкретной задачи на конкретной странице. `'rwxthqz'`
 ![Alt text](/project/img/user_role_roledenyroute.png "Optional Title")
+
 ---
 
 ## Инструкция по установке
@@ -107,9 +108,11 @@ pip install .
 Эта команда установит всё что нужно для запуска приложения, включая Flask и Pony ORM.
 Далее нужно настроить переменные окружения находящиеся в файле `setup.py` (либо заданные в shell оболочке) и создать базу данных.
 для этого в корне проекта есть Python скрипт `create_database.py`
+
 ```bash
 python create_database.py
 ```
+
 убедитесь что DB сервер `mysql|mariadb|postgres` установлен и запущен.
 
 #### 5. Запуск приложения
@@ -121,6 +124,7 @@ python -m flask --app hello11app run
 ```
 
 Сервер почти настроен! При запуске сервер создал все необходимые таблицы. Теперь заполни таблицы начальными данными используя `GET` запрос  
+
 ```http request
 https://localhost:5000/setup
 ```
@@ -133,5 +137,4 @@ https://localhost:5000/setup
 http://localhost:5000/
 ```
 
-Сейчас ты можеш успешно взаимодействовать с веб приложением.
-
+Сейчас ты можеш успешно взаимодействовать с веб приложением

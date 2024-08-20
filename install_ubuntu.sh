@@ -6,7 +6,7 @@ cd hello11app
 #chmod +x ./venv/bin/activate
 sudo apt install -y mariadb-*
 
-mysql -u root -q "SET PASSWORD FOR `root`@`localhost` = PASSWORD("1AaBbCc#")
+mysql -u root -q "SET PASSWORD FOR `root`@`localhost` = PASSWORD('1AaBbCc#')"
 
 export DATABASE_PASSWORD="1ABbCc#"
 

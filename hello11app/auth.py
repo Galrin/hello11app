@@ -3,10 +3,10 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 )
-from pony.orm import commit
+from pony.orm import commit, desc
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from . import User, RoleDenyRoute
+from . import User, RoleDenyRoute, InvoiceItem
 from . import Role
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -130,6 +130,11 @@ def api_login():
         # store the user id in a new session and return to the index
         session.clear()
         session["user_id"] = user.id
+        invoice_item = InvoiceItem.select().order_by(desc(InvoiceItem.upload_date)).limit(1)
+        if len(invoice_item):
+            session["invoice_item"] = InvoiceItem.select().order_by(desc(InvoiceItem.upload_date)).limit(1)[0].id
+        else:
+            session["invoice_item"] = 0
         return jsonify({"success": True, "message": url_for("main.index")})
 
     return jsonify({"success": False, "message": error})

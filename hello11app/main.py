@@ -4,7 +4,7 @@ from flask import (
 from pony.orm import desc
 from werkzeug.exceptions import abort
 
-from . import Post
+#from . import Post
 from .auth import login_required
 
 bp = Blueprint("main", __name__)

@@ -2,7 +2,16 @@
 
 {% block content %}
 
-    <style>
+    <style xmlns="http://www.w3.org/1999/html">
+        .blink_me {
+            animation: blinker 0.5s linear infinite;
+        }
+          
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -107,7 +116,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Загрузить счета в формате
                         <span class="fw-bold" style="color:orange">.csv</span>&nbsp;
                          на сервер</h1>
-                    <button type="button" class="btn-close btn-lg" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button onclick="closeModal()" type="button" class="btn-close btn-lg" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 {#        <form>#}
                 <div class="modal-body">
@@ -126,7 +135,7 @@
                     <div class="mb-3"><span id="status_load_in_tables"></span></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Закрыть</button>
+                    <button onclick="closeModal()" type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Закрыть</button>
                     <button id="add_file" type="button" class="btn btn-success btn-lg"><!-- class="disabled" -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-upload" viewBox="0 0 16 16">
@@ -140,10 +149,6 @@
             </div>
         </div>
     </div>
-    <div class="p-2 bd-highlight"><h5 class="fw-bold">файлы в системе</h5></div>
-
-
-
     <table id="table_item" class="table">
         <thead>
         <tr>
@@ -151,32 +156,55 @@
             <th scope="col">Имя файла</th>
             <th scope="col">Дата загрузки</th>
             <th scope="col">количество строк</th>
+            <th scope="col">действия</th>
         </tr>
         </thead>
-        <tbody class="table-group-divider">
 
-        {% if items %}
+
+        {% if items %}<tbody class="table-group-divider">
             {% for item in items %}
-                <tr>
+                <tr class="{% if session["invoice_item"] == item.id %}
+                table-warning
+                {% else %}
+                {% endif %}">
                     <th scope="row">{{ item.id }}</th>
                     <td>{{ item.file_name }}</td>
                     <td>{{ item.upload_date }}</td>
-                    <td>{{ item.rows_count }}</td>
+                    <td>{{ item.rows_count }}
+                        <!-- {{ item.upload_from_user_id.username }}
+                    {% for invoice_item in item.upload_from_user_id.invoice_items %}
+                        {{ invoice_item.file_name }}
+                    {% endfor %} -->
+                    </td>
+                    <td>
+                        <button data-id="{{ item.id }}" type="button" class="btn btn-outline-danger pb-2 btn-active" {% if session["invoice_item"] == item.id %}
+                        disabled
+                        {% endif %}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-magic" viewBox="0 0 16 16">
+                                <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z"/>
+                              </svg> Выбрать
+        </button>&nbsp;<button data-id="{{ item.id }}" type="button" class="btn btn-outline-danger pb-2 btn-delete">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
+              </svg> Удалить
+</button>
+                    </td>
                 </tr>
-            {% endfor %}
+            {% endfor %} 
         {% else %}
-            <tr>
-                <th scope="row">Данные отсутствуют</th>
-
-            </tr>
+            <tr><th></th><td></td><td>
+            <div class="container" style="text-align: center"><span class="fw-bold">Данные отсутствуют</span></div>
+            </td></tr>
         {% endif %}
-        </tbody>
+</tbody>
     </table>
 
 
     <script src="/static/js/jquery-3.7.1.min.js"></script>
     <script>
-        let upload_handler_url = '/dashboard/upload';
+        let upload_handler_url = '/invoice/upload';
+        let active_handler_url = '/invoice/active';
+        let delete_handler_url = '/invoice/delete';
         let intent_handler_url = '/main/api/intent/invoice';
 
         const button = document.getElementById('add_file');
@@ -185,11 +213,17 @@
         const fileInput = document.getElementById('fileInput');
         const status_load_in_tables = document.getElementById('status_load_in_tables');
 
+
+        function closeModal() {
+            progressBar.style.width = "" + Math.round(0) + "%";
+            progressBar.innerHTML = "" + Math.round(0) + "%";
+            status.innerText = "";
+            status_load_in_tables.innerText = "";
+            fileInput.value = "";
+        }
         function uploadFile() {
 
-            status.innerText = "";
-            progressBar.innerHTML = ""
-            progressBar.style.width = "0%";
+            
 
             var file = fileInput.files[0];
 
@@ -197,7 +231,7 @@
             formData.append('file', file);
 
             //console.log(file)
-
+closeModal()
             var xhr = new XMLHttpRequest();
 
             xhr.open('POST', upload_handler_url, true);
@@ -220,52 +254,13 @@
             };
 
             xhr.send(formData);
-            {#   const fileInput = document.getElementById('fileInput');#}
-            {#   const file = fileInput.files[0];#}
-            {##}
-            {#   if (file) {#}
-            {#       const progressBar = document.getElementById('progressBar');#}
-            {#       const status = document.getElementById('status');#}
-            {##}
-            {#       const formData = new FormData();#}
-            {#       formData.append('file', file);#}
-            {##}
-            {#       fetch(upload_handler_url, {#}
-            {#           method: 'POST',#}
-            {#           body: formData#}
-            {#       })#}
-            {#       .then(response => {#}
-            {#           if (!response.ok) {#}
-            {#               throw new Error('Ошибка при загрузке файла');#}
-            {#           }#}
-            {#           const reader = response.body.getReader();#}
-            {#           const contentLength = +response.headers.get('Content-Length');#}
-            {#           let receivedLength = 0;#}
-            {##}
-            {#           return reader.read().then(function processResult({ done, value }) {#}
-            {#               if (done) {#}
-            {#                   status.innerText = "Загрузка завершена";#}
-            {#                   return;#}
-            {#               }#}
-            {##}
-            {#               receivedLength += value.length;#}
-            {#               progressBar.style.width = "" + ((receivedLength / contentLength) * 100) + "%";#}
-            {#               status.innerText = "Загружено " + Math.round(progressBar.innerHTML) + "%";#}
-            {##}
-            {#               // Continue reading#}
-            {#               return reader.read().then(processResult);#}
-            {#           });#}
-            {#       })#}
-            {#       .catch(error => {#}
-            {#           console.error('Произошла ошибка:', error);#}
-            {#       });#}
-            {#   }#}
+  
         }
 
         button.addEventListener('click', uploadFile);
 
         function intentAddInvoiceInSystem(file_name) {
-            status_load_in_tables.innerText = "Обработка, подождите ...";
+            status_load_in_tables.innerText = "Обработка(это может занять несколько минут), подождите ...";
             var data = new FormData();
             data.append('file_name', file_name);
 
@@ -278,47 +273,67 @@
                 console.log(res_text);
                 if (xhr.status === 200) {
                     console.log("200 OK")
-
                     status_load_in_tables.innerText = "Успешно обработано " + res_json["rows_count"] + " строк";
-                    //location.reload();
-                    console.log($('#table_item').html())
-                    var table_url = "{{ url_for('main_invoices.index') }}";
-                    $("#table_item").load(table_url + ' #table_item', function () {
-                        console.log("table reloaded");
-                        //document.getElementById('table').innerHTML(this.innerHTML);
-                    });
+                    update_table();
 
                 }
                 console.log(xhr.status)
             };
             xhr.send(data);
         }
+function setActiveItem(id) {
+    console.log("e:"+ $( this ).data('id'));
+    $(this).toggleClass("blink_me");
+    //console.log("deleteItem");
+    const url = active_handler_url + "/" + $( this ).data('id');
+    getData(url);
+    //console.log($('#table_item').html())
+
+}
+
+function deleteItem(e) {
+    console.log("e:"+ $( this ).data('id'));
+    $(this).toggleClass("blink_me");
+    //console.log("deleteItem");
+    const url = delete_handler_url + "/" + $( this ).data('id');
+    getData(url);
+    // отправить запрос
+    // если это активная item -  найти новейшую в списке, присвоить в session
+    // удалить item
+    // вернуть результат,
+    // обновить таблицу
+    //console.log($('#table_item').html())
+
+}
+
+var setup_handlers = function() {
+    $(".btn-delete").click(deleteItem);
+    $(".btn-active").click(setActiveItem);
+};
+
+var update_table = function() {
+    var table_url = "{{ url_for('main_invoices.index') }}";
+    $("#table_item").load(table_url + ' #table_item', function () {
+        console.log("table reloaded");
+        setup_handlers();
+    });
+};
+
+async function getData(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+  
+      //const json = await response.json();
+      //console.log(json);
+      update_table();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  
+setup_handlers();
     </script>
-
-    <script>
-
-
-    </script>
-
-    <!--   <script src="/static/js/socket.io-3.0.4.min.js"></script> <script>
-     function intentAddInvoiceInSystem(file_name) {
-         const socket_route = '127.0.0.1' + intent_handler_url;
-
-         const socket = io("ws://" + socket_route, {
-             reconnectionDelayMax: 10000,
-             auth: {
-                 token: "123"
-             },
-             query: {
-                 "file-name": file_name
-             }
-         });
-         // Обработчик события приема новых данных от сервера
-         socket.on('new_data', function (data) {
-             // Обработка новых данных
-             console.log("New data received:", data);
-             // Здесь вы можете обновить интерфейс вашего приложения с полученными данными
-         });
-     }
-     </script> -->
 {% endblock %}
