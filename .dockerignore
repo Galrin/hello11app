@@ -1,0 +1,7 @@
+.venv
+venv
+hello11app.egg-info
+Dockerfile
+.vscode
+.idea
+__pycache__

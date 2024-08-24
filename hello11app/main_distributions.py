@@ -9,7 +9,6 @@ from flask import (
 from pony.orm import desc
 from werkzeug.exceptions import abort
 
-from build.lib.hello11app import Invoice
 from hello11app import DistributedItem, InvoiceItem
 from hello11app.auth import login_required, route_access
 from config import Config
