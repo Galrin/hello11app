@@ -38,6 +38,7 @@ mariadb -e "SET PASSWORD FOR 'root'@localhost = PASSWORD('${DATABASE_PASSWORD}')
 mariadb -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DATABASE_PASSWORD}' WITH GRANT OPTION;"
 EOF
 
+RUN chmod +x run.sh
 RUN chmod +x podman_init_cmd.sh
 
 #CMD [ "/usr/bin/python3.12", "-m", "http.server" ]
